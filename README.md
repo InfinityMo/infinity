@@ -30,6 +30,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
       src：项目资源文件
           assets：图片资源文件
           common：公共资源文件，用于存放公共组件、网络请求封装、公共样式等
+            components：公共组件，其它项目亦可使用。用于存放可多个项目复用的组件
+            mockData：mock数据
+            netWork：axios组件的封装，用于项目发送http请求的封装
+            style：公共样式、基本样式重置
+            utils：用于存放公共方法
           components：用于存放封装的项目公共组件
           mixins：混入
           router：路由
