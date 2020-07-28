@@ -26,7 +26,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### 目录格式
       dist：执行yarn build或者npm run build 后生成的包
       node_modules：依赖包
-      pubilc：静态资源文件，不会被webpage压缩。
+      pubilc：静态资源文件，不会被webpage压缩。可用于存放大文件等
       src：项目资源文件
           assets：图片资源文件
           common：公共资源文件，用于存放公共组件、网络请求封装、公共样式等
