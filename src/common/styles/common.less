@@ -1,0 +1,27 @@
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
+// body {
+  //   // background: #f0f2f5;
+  // }
+
+// loading的高度
+.ant-spin-nested-loading>div>.ant-spin {
+  max-height: 100vh;
+  height: 100vh;
+}
+
+.app-body>.ant-spin-spinning {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .25);
+
+  .ant-spin-dot {
+    top: 50%;
+  }
+}

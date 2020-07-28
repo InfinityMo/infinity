@@ -1,0 +1,108 @@
+/*
+author：Infinity
+time：2020-07-27
+*/
+import axios from 'axios'
+import { stringify } from 'qs'
+import store from '@/store'
+// import { message } from 'ant-design-vue'
+// import router from '@/router'
+// 创建axios实例
+const instance = axios.create({ timeout: 20000 })
+// instance.defaults.withCredentials = true // 配置跨域
+// 设置post默认 Content-Type
+instance.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
+// const codeMessage = {
+//   200: '服务器成功返回请求的数据。',
+//   201: '新建或修改数据成功。',
+//   202: '一个请求已经进入后台排队（异步任务）。',
+//   204: '删除数据成功。',
+//   400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
+//   401: '用户没有权限（令牌、用户名、密码错误）。',
+//   403: '用户得到授权，但是访问是被禁止的。',
+//   404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
+//   406: '请求的格式不可得。',
+//   410: '请求的资源被永久删除，且不会再得到的。',
+//   422: '当创建一个对象时，发生一个验证错误。',
+//   500: '服务器发生错误，请检查服务器。',
+//   502: '网关错误。',
+//   503: '服务不可用，服务器暂时过载或维护。',
+//   504: '网关超时。'
+// }
+// 去除多余的请求
+const pending = [] // 声明一个数组用于存储每个ajax请求的取消函数和ajax标识
+const removePending = (config) => {
+  const url = `${config.url}?${stringify(config.data)}`
+  for (const p in pending) {
+    if (pending[p].url === url) {
+      pending[p].cancel('cancelToken')
+      store.commit('setSpinning', false)
+      pending.splice(p, 1)
+    }
+  }
+}
+// 添加请求拦截器
+instance.interceptors.request.use(
+  config => {
+    removePending(config)
+    // 添加请求cancel
+    config.cancelToken = new axios.CancelToken((cancel) => {
+      const url = `${config.url}?${stringify(config.data)}`
+      pending.push({ url, cancel })
+    })
+    // 序列化参数
+    config.data = stringify(config.data)
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
+// 添加响应拦截器
+instance.interceptors.response.use(response => {
+  store.commit('setSpinning', false)
+  removePending(response.config) // 在一个ajax响应后再执行一下取消操作，把已经完成的请求从pending中移除
+  return response.data // 过滤多余的字段，只返回data
+}, error => {
+  store.commit('setSpinning', false)
+  /* 添加前端提示code */
+  // let code = error.response && error.response.status
+  // if (code === undefined && error.message.includes('timeout')) {
+  //   code = 504
+  // }
+  // message.error(codeMessage[code])
+  return Promise.reject(error)
+})
+// 清除请求参数的首尾空格
+const trimParams = (params) => {
+  for (const prop in params) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (params.hasOwnProperty(prop)) {
+      if (params[prop] && typeof (params[prop]) === 'string') {
+        params[prop] = params[prop].trim()
+      }
+    }
+  }
+}
+/*
+url：请求的地址
+params：请求的参数{ key:code }形式
+isLoading：请求是否添加loading，默认添加，请求时为false，去除loading
+*/
+export default {
+  // post 请求
+  post (url, params, spinning) {
+    trimParams(params)
+    if (!spinning) {
+      store.commit('setSpinning', true)
+    }
+    return instance.post(url, params)
+  },
+  // get 请求
+  get (url, params, spinning) {
+    if (!spinning) {
+      store.commit('setSpinning', true)
+    }
+    return instance.get(url, params)
+  }
+}
