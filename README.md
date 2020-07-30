@@ -40,17 +40,18 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
           router：路由
           store：状态管理
           view：业务视图
-          APP：vue编译入口
+          APP.vue：vue编译入口
           main.js：文件加载入口
-      browserslistrc：浏览器兼容配置
-      editorconfig：代码规范配置文件
-      env.development：开发环境配置文件
-      env.production：生产环境配置文件
-      eslintrc：eslint配置文件
-      gitignore：git忽略配置文件
-      babel.config：bable配置文件
+      .browserslistrc：浏览器兼容配置
+      .editorconfig：代码规范配置文件
+      .env.development：开发环境配置文件
+      .env.production：生产环境配置文件
+      .eslintrc.js：eslint配置文件
+      .gitignore：git忽略配置文件
+      babel.config.js：bable配置文件
       package.json： 项目配置
       package-lock.json： 项目实际使用包记录文件
-      README.MD：项目说明文件
+      README.md：项目说明文件
       vue.config.js：项目打包配置文件
+      yarn.lock：使用yarn时依赖包的确切版本的信息
 
