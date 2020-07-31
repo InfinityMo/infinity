@@ -15,6 +15,7 @@ export default {
   },
   mounted () {
     this.testApi()
+    this.testApi()
   },
   methods: {
     testApi () {

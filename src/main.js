@@ -6,11 +6,10 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import '@/common/styles/reset.less'
 import '@/common/styles/common.less'
-import axios from './common/network/request'
+import axios from '@/common/network/request'
 Vue.prototype.$axios = axios
 Vue.use(Antd)
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

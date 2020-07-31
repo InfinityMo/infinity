@@ -7,8 +7,8 @@ import { stringify } from 'qs'
 import store from '@/store'
 import { message } from 'ant-design-vue'
 // import router from '@/router'
-// 创建axios实例
-const instance = axios.create({ timeout: 20000 })
+// 创建axios实例，设置超时时间为4S
+const instance = axios.create({ timeout: 40000 })
 // instance.defaults.withCredentials = true // 配置跨域，需要跨域时将此配置加上，同时需要后端配合开放跨域
 // 设置post默认 Content-Type
 instance.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
@@ -30,7 +30,7 @@ const codeMessage = {
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。'
 }
-// 去除多余的请求
+// 解决快速点击或并发请求出现的多个请求的问题
 const pending = [] // 声明一个数组用于存储每个ajax请求的取消函数和ajax标识
 const removePending = (config) => {
   const url = `${config.url}?${stringify(config.data)}`
@@ -66,11 +66,12 @@ instance.interceptors.response.use(response => {
   return response.data // 过滤响应对象里多余的字段，只返回需要的data
 }, error => {
   store.commit('setSpinning', false)
-  /* 添加前端提示code */
+  // 如果错误是axios.Cancel构造出来的实例则说明多余的请求被拦截掉了，直接返回promise抛出错误信息
+  if (error.constructor === axios.Cancel) return Promise.reject(error)
+  // 添加前端提示code
   let code = error.response && error.response.status
-  if (code === undefined && error.message.includes('timeout')) {
-    code = 504
-  }
+  // 如果code不存在且错误信息里包含timeout字段，判断为服务器请求超时，则code设置为504
+  if (code === undefined && error.message.includes('timeout')) code = 504
   message.error(codeMessage[code])
   return Promise.reject(error)
 })

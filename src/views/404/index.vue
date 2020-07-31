@@ -7,7 +7,6 @@
 
 export default {
   name: 'None',
-  components: {},
   data () {
     return {
 
