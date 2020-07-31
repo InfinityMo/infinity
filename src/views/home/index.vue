@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     testApi () {
-      this.$axios.get('fing/fads').then(res => {
+      this.$axios.get('http://jsonplaceholder.typicode.com/todos').then(res => {
         console.log(res)
       })
     }

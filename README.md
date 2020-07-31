@@ -2,17 +2,17 @@
 
 ## Project setup
 ```
-yarn install
+yarn install or npm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn thelian
+yarn thelian or npm run thelian
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+yarn build or npm run build
 ```
 
 ### Lints and fixes files
@@ -53,5 +53,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
       package-lock.json： 项目实际使用包记录文件
       README.md：项目说明文件
       vue.config.js：项目打包配置文件
-      yarn.lock：使用yarn时依赖包的确切版本的信息
+      yarn.lock：当使用yarn时依赖包的确切版本的信息
 
