@@ -4,15 +4,13 @@
     <!-- <input type="file"
            @change="getFile($event)" />
     <img :src='imgShow[0]'> -->
-    <button @click="debounce(testApi)">test Api</button>
+    <button @click="$debounce(testApi)">test Api</button>
   </div>
 </template>
 <script>
-import debounce from '@/mixins/debounce'
 export default {
   name: 'Home',
   components: {},
-  mixins: [debounce],
   data () {
     return {
       inputImg: '',
@@ -21,7 +19,8 @@ export default {
     }
   },
   mounted () {
-    // console.log(debounce)
+    // this.testApi()
+    // this.$debounce(this.testApi, 1, 2, 3, 4)
   },
   methods: {
     getFile (event) {

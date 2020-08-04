@@ -7,7 +7,10 @@ import 'ant-design-vue/dist/antd.css'
 import '@/common/styles/reset.less'
 import '@/common/styles/common.less'
 import axios from '@/common/network/request'
+import debounce from '@/common/utils/debounce'
 Vue.prototype.$axios = axios
+// 挂载防抖函数
+Vue.prototype.$debounce = debounce
 Vue.use(Antd)
 Vue.config.productionTip = false
 new Vue({

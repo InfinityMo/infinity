@@ -71,7 +71,7 @@ instance.interceptors.response.use(response => {
   // 添加前端提示code
   let code = error.response && error.response.status
   // 如果code不存在且错误信息里包含timeout字段，判断为服务器请求超时，则code设置为504
-  if (code === undefined && error.message.includes('timeout')) code = 504
+  if (code === undefined && (error.message.includes('timeout') || error.message.includes('Network Error'))) code = 504
   message.error(codeMessage[code])
   return Promise.reject(error)
 })
