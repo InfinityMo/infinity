@@ -8,6 +8,11 @@ body {
   padding: 0;
 }
 
+// 将行高设置为1,方便布局，特殊地方可重置line-height
+body {
+  line-height: 1;
+}
+
 /* 常用元素 */
 body,
 div,
@@ -137,11 +142,6 @@ table td {
 /* 去除chrome记住密码输入框背景色为黄色 */
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #fff inset;
-}
-
-/* 去除input蓝色边框 */
-input {
-  outline: 0;
 }
 
 /* 去除IEinput x */
