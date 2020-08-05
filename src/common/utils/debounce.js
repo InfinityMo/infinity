@@ -5,15 +5,24 @@ time：2020-08-24
 
 func：函数引用
 args：剩余参数
-默认200ms
+默认300ms
 */
 export default function (func, ...args) {
-  let timer = null
-  return (function () {
-    const _this = this
-    if (timer) clearTimeout(timer)
-    timer = setTimeout(() => {
-      func.apply(_this, args)
-    }, 200)
-  }())
+  const immediate = true
+  const self = this._self
+  return () => {
+    const context = self
+    if (self.timeout) clearTimeout(self.timeout)
+    if (immediate) {
+      const callNow = !self.timeout
+      self.timeout = setTimeout(() => {
+        self.timeout = null
+      }, 500)
+      if (callNow) func.apply(context, args)
+    } else {
+      self.timeout = setTimeout(() => {
+        func.apply(context, args)
+      }, 500)
+    }
+  }
 }

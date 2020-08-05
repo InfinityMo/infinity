@@ -32,6 +32,7 @@ const codeMessage = {
 }
 // 解决快速点击或并发请求出现的多个请求的问题
 const pending = [] // 声明一个数组用于存储每个ajax请求的取消函数和ajax标识
+// eslint-disable-next-line no-unused-vars
 const removePending = (config) => {
   const url = `${config.url}?${stringify(config.data)}`
   for (const p in pending) {
@@ -45,12 +46,12 @@ const removePending = (config) => {
 // 添加请求拦截器
 instance.interceptors.request.use(
   config => {
-    removePending(config)
+    // removePending(config)
     // 添加请求cancel
-    config.cancelToken = new axios.CancelToken((cancel) => {
-      const url = `${config.url}?${stringify(config.data)}`
-      pending.push({ url, cancel })
-    })
+    // config.cancelToken = new axios.CancelToken((cancel) => {
+    //   const url = `${config.url}?${stringify(config.data)}`
+    //   pending.push({ url, cancel })
+    // })
     // 序列化参数
     config.data = stringify(config.data)
     return config
@@ -62,12 +63,12 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(response => {
   store.commit('setSpinning', false)
-  removePending(response.config) // 在一个ajax响应后再执行一下取消操作，把已经完成的请求从pending中移除
+  // removePending(response.config) // 在一个ajax响应后再执行一下取消操作，把已经完成的请求从pending中移除
   return response.data // 过滤响应对象里多余的字段，只返回需要的data
 }, error => {
   store.commit('setSpinning', false)
   // 如果错误是axios.Cancel构造出来的实例则说明多余的请求被拦截掉了，直接返回promise抛出错误信息
-  if (error.constructor === axios.Cancel) return Promise.reject(error)
+  // if (error.constructor === axios.Cancel) return Promise.reject(error)
   // 添加前端提示code
   let code = error.response && error.response.status
   // 如果code不存在且错误信息里包含timeout字段，判断为服务器请求超时，则code设置为504
