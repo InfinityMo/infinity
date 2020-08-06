@@ -8,7 +8,10 @@ import store from '@/store'
 import { message } from 'ant-design-vue'
 // import router from '@/router'
 // 创建axios实例，设置超时时间为4S
-const instance = axios.create({ timeout: 40000 })
+const instance = axios.create({
+  baseURL: process.env.VUE_APP_API,
+  timeout: 40000
+})
 // instance.defaults.withCredentials = true // 配置跨域，需要跨域时将此配置加上，同时需要后端配合开放跨域
 // 设置post请求默认 Content-Type
 instance.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'

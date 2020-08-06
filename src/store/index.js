@@ -4,7 +4,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    spinning: false // 加载loading的状态
+    spinning: false // 加载时loading的状态
+  },
+  // 定义获取state属性的方法
+  getters: {
+
   },
   mutations: {
     // 突变配置加载loading的状态
