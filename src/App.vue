@@ -2,12 +2,14 @@
   <a-config-provider :getPopupContainer="getPopupContainer"
                      :locale="locale">
     <div id="app">
-      <a-spin :spinning="$store.state.spinning">
+      <router-view />
+      <a-spin :spinning="$store.state.spinning"
+              size="large"
+              tip="拼命加载中...">
         <a-icon slot="indicator"
                 type="loading"
-                style="font-size: 24px"
+                style="font-size: 28px"
                 spin />
-        <router-view />
       </a-spin>
     </div>
   </a-config-provider>
